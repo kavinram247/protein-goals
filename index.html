@@ -36,15 +36,20 @@
 
     <header class="masthead">
       <div class="dateline" id="dateline">—</div>
-      <h1 class="wordmark">
+      <h1 class="wordmark" id="wordmark">
         <span class="amp">K</span>avin's <em>Log</em>
       </h1>
       <div class="meta">
         <span id="day-meta">Day 1</span>
         <span class="sep">·</span>
-        <span>Phase III — Bulking</span>
+        <span id="phase-label">Phase III — Bulking</span>
         <span class="sep">·</span>
         <button class="signout" id="signout">sign out</button>
+      </div>
+      <div class="gym-toggle hidden" id="gym-toggle">
+        <button class="gym-opt active" id="gym-morning" data-gym="morning">Morning gym</button>
+        <span class="gym-sep">·</span>
+        <button class="gym-opt" id="gym-evening" data-gym="evening">Evening gym</button>
       </div>
       <div class="sync-state" id="sync-state"></div>
     </header>

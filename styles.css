@@ -217,6 +217,37 @@ input  { font-family: inherit; }
   border-bottom-color: var(--ink);
 }
 
+.gym-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.gym-opt {
+  background: none;
+  border: 0;
+  font: inherit;
+  color: var(--ink-faint);
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+  transition: all 180ms;
+}
+
+.gym-opt:hover { color: var(--ink); }
+
+.gym-opt.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.gym-sep { color: var(--rule); }
+
 .sync-state {
   position: absolute;
   top: 0;
