@@ -95,7 +95,21 @@ PLAN.forEach((m) => m.items.forEach((it) => { ITEM_INDEX[it.id] = { meal: m.name
 
 /* ------------------------ supabase ------------------------ */
 
-const supabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY, {
+if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+  window.__showBootError && window.__showBootError(
+    'Supabase library did not load. window.supabase is missing.\n\n' +
+    'Likely the CDN URL is wrong or blocked. Check network tab.'
+  );
+  throw new Error('Supabase library missing');
+}
+if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
+  window.__showBootError && window.__showBootError(
+    'config.js did not run, or SUPABASE_URL/SUPABASE_ANON_KEY are empty.'
+  );
+  throw new Error('Supabase config missing');
+}
+
+const sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, storage: window.localStorage, storageKey: 'pg:auth' },
 });
 
@@ -166,7 +180,7 @@ const setSyncState = (kind) => {
 
 const fetchAllDays = async () => {
   setSyncState('syncing');
-  const { data, error } = await supabase
+  const { data, error } = await sb
     .from('days')
     .select('day, checked, protein')
     .order('day', { ascending: false })
@@ -201,7 +215,7 @@ const queueSave = () => {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(async () => {
     if (!userId) return;
-    const { error } = await supabase
+    const { error } = await sb
       .from('days')
       .upsert(
         { user_id: userId, day: state.date, checked: state.checked, protein },
@@ -223,7 +237,7 @@ const resetToday = async () => {
   state.history[state.date] = { checked: {}, protein: 0 };
   if (userId) {
     setSyncState('syncing');
-    const { error } = await supabase
+    const { error } = await sb
       .from('days')
       .upsert(
         { user_id: userId, day: state.date, checked: {}, protein: 0 },
@@ -558,7 +572,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.getElementById('signout').addEventListener('click', async () => {
-  await supabase.auth.signOut();
+  await sb.auth.signOut();
   userId = null;
   showLogin();
 });
@@ -572,7 +586,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
   err.classList.add('hidden');
   btn.disabled = true;
   btn.textContent = 'Signing in';
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
   btn.disabled = false;
   btn.textContent = 'Enter';
   if (error) {
@@ -606,7 +620,7 @@ const bootApp = async () => {
 };
 
 (async function init() {
-  const { data } = await supabase.auth.getSession();
+  const { data } = await sb.auth.getSession();
   if (data.session) {
     userId = data.session.user.id;
     await bootApp();

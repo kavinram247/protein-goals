@@ -120,8 +120,35 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+  <div id="boot-error" style="display:none;padding:24px;max-width:600px;margin:40px auto;font-family:monospace;background:#fff5e6;border:1px solid #e9a23b;color:#3a2a10;line-height:1.5;font-size:13px;white-space:pre-wrap;"></div>
+
+  <script>
+    // Catch any error so we never get a silent white screen
+    window.__showBootError = function(msg) {
+      var box = document.getElementById('boot-error');
+      if (!box) return;
+      box.style.display = 'block';
+      box.textContent = msg;
+      // Hide the empty login/app frames so the error is what's visible
+      var l = document.getElementById('login-screen');
+      var a = document.getElementById('app-screen');
+      if (l) l.style.display = 'none';
+      if (a) a.style.display = 'none';
+    };
+    window.addEventListener('error', function(e) {
+      window.__showBootError('Error: ' + (e.message || e.error || 'unknown') +
+        (e.filename ? '\n\nin ' + e.filename + ':' + e.lineno : ''));
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+      window.__showBootError('Async error: ' + (e.reason && (e.reason.message || e.reason)));
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"
+    onerror="window.__showBootError('Failed to load Supabase library from CDN. Check your network.')"></script>
+  <script src="config.js"
+    onerror="window.__showBootError('Failed to load config.js')"></script>
+  <script src="app.js"
+    onerror="window.__showBootError('Failed to load app.js')"></script>
 </body>
 </html>
