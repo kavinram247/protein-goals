@@ -3,16 +3,17 @@
 ================================================================== */
 
 :root {
-  --paper:        oklch(97.5% 0.012 78);
-  --paper-deep:   oklch(94% 0.018 78);
-  --ink:          oklch(22% 0.018 60);
-  --ink-soft:     oklch(38% 0.018 65);
-  --ink-faint:    oklch(55% 0.015 70);
-  --rule:         oklch(82% 0.018 75);
-  --rule-soft:    oklch(89% 0.012 75);
-  --accent:       oklch(58% 0.18 50);
-  --accent-soft:  oklch(78% 0.10 55);
-  --green:        oklch(60% 0.14 145);
+  /* Warm dark — like an old leather journal, not generic black */
+  --paper:        oklch(15% 0.012 55);
+  --paper-deep:   oklch(11% 0.010 55);
+  --ink:          oklch(93% 0.012 80);
+  --ink-soft:     oklch(76% 0.018 75);
+  --ink-faint:    oklch(56% 0.020 70);
+  --rule:         oklch(28% 0.018 60);
+  --rule-soft:    oklch(22% 0.015 60);
+  --accent:       oklch(76% 0.16 65);
+  --accent-soft:  oklch(60% 0.12 60);
+  --green:        oklch(78% 0.14 145);
 
   --display: 'Fraunces', 'Iowan Old Style', 'Georgia', serif;
   --body:    'Inter', -apple-system, system-ui, sans-serif;
@@ -545,7 +546,7 @@ input  { font-family: inherit; }
 .modal {
   position: fixed;
   inset: 0;
-  background: oklch(22% 0.018 60 / 0.6);
+  background: oklch(8% 0.010 55 / 0.78);
   backdrop-filter: blur(3px);
   display: grid;
   place-items: center;
@@ -659,10 +660,10 @@ input  { font-family: inherit; }
 }
 
 .cell[data-level="0"] { background: var(--rule-soft); }
-.cell[data-level="1"] { background: oklch(85% 0.05 55); }
-.cell[data-level="2"] { background: oklch(75% 0.10 55); }
-.cell[data-level="3"] { background: oklch(65% 0.15 50); }
-.cell[data-level="4"] { background: oklch(58% 0.18 50); }
+.cell[data-level="1"] { background: oklch(38% 0.06 60); }
+.cell[data-level="2"] { background: oklch(52% 0.10 62); }
+.cell[data-level="3"] { background: oklch(65% 0.14 64); }
+.cell[data-level="4"] { background: oklch(76% 0.16 65); }
 .cell.future { background: transparent; }
 .cell.today { box-shadow: inset 0 0 0 1.5px var(--ink); }
 
